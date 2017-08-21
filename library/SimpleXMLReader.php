@@ -243,7 +243,11 @@ class SimpleXMLReader extends XMLReader
      */
     public function expandSimpleXml($version = "1.0", $encoding = "UTF-8", $className = null)
     {
-        $element = $this->expand();
+        $element = @$this->expand();
+        if ($element === false) {
+            $element = new DOMComment('Invalid entry');
+        }
+        
         $document = new DomDocument($version, $encoding);
         $document->preserveWhiteSpace = $this->preserveWhiteSpace;
         if ($element instanceof DOMCharacterData) {
@@ -267,7 +271,11 @@ class SimpleXMLReader extends XMLReader
      */
     public function expandDomDocument($version = "1.0", $encoding = "UTF-8")
     {
-        $element = $this->expand();
+        $element = @$this->expand();
+        if ($element === false) {
+            $element = new DOMComment('Invalid entry');
+        }
+
         $document = new DomDocument($version, $encoding);
         $document->preserveWhiteSpace = $this->preserveWhiteSpace;
         if ($element instanceof DOMCharacterData) {
